@@ -33,7 +33,7 @@ For questions about donations, including corporate giving, please email the Home
 
 - [Homebrew/discussions (forum)](https://github.com/orgs/Homebrew/discussions)
 - [@homebrew@fosstodon.org (Mastodon)](https://fosstodon.org/@homebrew)
-- [@MacHomebrew (𝕏 (formerly known as Twitter))](https://twitter.com/MacHomebrew)
+- [@MacHomebrew (𝕏 (formerly known as Twitter))](https://x.com/MacHomebrew)
 
 ## Contributing
 
@@ -87,6 +87,6 @@ Flaky test detection and tracking is provided by [BuildPulse](https://buildpulse
 [![DNSimple](https://cdn.dnsimple.com/assets/resolving-with-us/logo-light.png)](https://dnsimple.com/resolving/homebrew#gh-light-mode-only)
 [![DNSimple](https://cdn.dnsimple.com/assets/resolving-with-us/logo-dark.png)](https://dnsimple.com/resolving/homebrew#gh-dark-mode-only)
 
-Homebrew is generously supported by [GitHub](https://github.com/github), [Custom Ink](https://github.com/customink), [Randy Reddig](https://github.com/ydnar), [Codecademy](https://github.com/Codecademy), [MacPaw Inc.](https://github.com/MacPaw), [fly.io](https://github.com/superfly), [Workbrew](https://github.com/Workbrew) and many other users and organisations via [GitHub Sponsors](https://github.com/sponsors/Homebrew).
+Homebrew is generously supported by [GitHub](https://github.com/github), [Custom Ink](https://github.com/customink), [Randy Reddig](https://github.com/ydnar), [Codecademy](https://github.com/Codecademy), [MacPaw Inc.](https://github.com/MacPaw), [fly.io](https://github.com/superfly), [GitKraken](https://github.com/gitkraken), [Workbrew](https://github.com/Workbrew) and many other users and organisations via [GitHub Sponsors](https://github.com/sponsors/Homebrew).
 
 [![GitHub](https://github.com/github.png?size=64)](https://github.com/github)[![fly.io](https://github.com/superfly.png?size=64)](https://github.com/superfly)
