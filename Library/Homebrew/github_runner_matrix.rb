@@ -129,6 +129,23 @@ class GitHubRunnerMatrix
     macos_version <= NEWEST_HOMEBREW_CORE_MACOS_RUNNER && macos_version >= OLDEST_HOMEBREW_CORE_MACOS_RUNNER
   end
 
+  NEW_INTEL_MACOS_MUST_BUILD_FORMULAE = %w[pkg-config pkgconf].freeze
+
+  sig { returns(T::Boolean) }
+  def deploy_new_x86_64_runner?
+    return true if @testing_formulae.any? { |f| NEW_INTEL_MACOS_MUST_BUILD_FORMULAE.include?(f.name) }
+    return true if @testing_formulae.any? { |f| f.formula.class.pour_bottle_only_if == :clt_installed }
+
+    Formula.all.any? do |formula|
+      non_test_dependencies = Dependency.expand(formula, cache_key: "determine-test-runners") do |_, dependency|
+        Dependency.prune if dependency.test?
+      end
+      next false if non_test_dependencies.none? { |dep| @testing_formulae.map(&:name).include?(dep.name) }
+
+      formula.class.pour_bottle_only_if == :clt_installed
+    end
+  end
+
   NEWEST_GITHUB_ACTIONS_INTEL_MACOS_RUNNER = :ventura
   OLDEST_GITHUB_ACTIONS_INTEL_MACOS_RUNNER = :monterey
   NEWEST_GITHUB_ACTIONS_ARM_MACOS_RUNNER = :sonoma
@@ -158,6 +175,10 @@ class GitHubRunnerMatrix
     ephemeral_suffix << "-long" if runner_timeout == GITHUB_ACTIONS_LONG_TIMEOUT
     ephemeral_suffix.freeze
 
+    # `#deploy_new_x86_64_runner?` is expensive, so:
+    #  - avoid calling it if we don't have to
+    #  - cache the result to a variable to avoid calling it multiple times
+    deploy_new_x86_64_runner = @all_supported || deploy_new_x86_64_runner?
     MacOSVersion::SYMBOLS.each_value do |version|
       macos_version = MacOSVersion.new(version)
       next unless runner_enabled?(macos_version)
@@ -181,7 +202,7 @@ class GitHubRunnerMatrix
       )
       @runners << create_runner(:macos, :arm64, spec, macos_version)
 
-      next if !@all_supported && macos_version > NEWEST_HOMEBREW_CORE_INTEL_MACOS_RUNNER
+      next if macos_version > NEWEST_HOMEBREW_CORE_INTEL_MACOS_RUNNER && !deploy_new_x86_64_runner
 
       github_runner_available = macos_version <= NEWEST_GITHUB_ACTIONS_INTEL_MACOS_RUNNER &&
                                 macos_version >= OLDEST_GITHUB_ACTIONS_INTEL_MACOS_RUNNER
